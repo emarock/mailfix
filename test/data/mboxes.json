@@ -1,0 +1,105 @@
+{
+  "INBOX": {
+    "attribs": [
+      "\\HasNoChildren"
+    ],
+    "delimiter": "/",
+    "children": null,
+    "parent": null
+  },
+  "Sent Messages": {
+    "attribs": [
+      "\\HasNoChildren"
+    ],
+    "delimiter": "/",
+    "children": null,
+    "parent": null
+  },
+  "Notes": {
+    "attribs": [
+      "\\HasNoChildren"
+    ],
+    "delimiter": "/",
+    "children": null,
+    "parent": null
+  },
+  "Calendar": {
+    "attribs": [
+      "\\HasNoChildren"
+    ],
+    "delimiter": "/",
+    "children": null,
+    "parent": null
+  },
+  "Deleted Messages": {
+    "attribs": [
+      "\\HasNoChildren"
+    ],
+    "delimiter": "/",
+    "children": null,
+    "parent": null
+  },
+  "Lists": {
+    "attribs": [
+      "\\HasChildren"
+    ],
+    "delimiter": "/",
+    "parent": null,
+    "children": {
+      "List": {
+	"attribs": [
+	  "\\HasNoChildren"
+	],
+	"delimiter": "/",
+	"children": null,
+	"parent": null
+      },      
+      "Sublists": {
+	"attribs": [
+	  "\\HasChildren"
+	],
+	"delimiter": "/",
+	"parent": null,
+	"children": {
+	  "Sublist": {
+	    "attribs": [
+	      "\\HasNoChildren"
+	    ],
+	    "delimiter": "/",
+	    "children": null,
+	    "parent": null
+	  }
+	}
+      }
+    }
+  },
+  "[Gmail]": {
+    "attribs": [
+      "\\HasChildren",
+      "\\Noselect" ],
+    "delimiter": "/",
+    "parent": null,
+    "children": {
+      "All Mail": {
+	"attribs": [
+	  "\\All",
+	  "\\HasNoChildren"
+	],
+	"delimiter": "/",
+	"children": null,
+	"special_use_attrib": "\\All"
+      },
+      "Sent Mail": {
+	"attribs": [
+	  "\\Drafts",
+	  "\\HasNoChildren"
+	],
+	"delimiter": "/",
+	"children": null,
+	"special_use_attrib": "\\Sent"
+      }
+    }
+  }
+}
+
+
