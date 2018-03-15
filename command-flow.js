@@ -7,12 +7,37 @@ exports.command = 'flow [options]'
 
 exports.describe = 'Export flow information from an email archive'
 
-exports.builder = {
-  'provider': {},
-  'secret': {},
-  'user-words': {},
-  'domain-words': {},
-  'mac-index': {}
+exports.builder = (yargs) => {
+
+  yargs.options({
+    'provider': {},
+    'secret': {},
+    'user-words': {},
+    'domain-words': {},
+    'mac-index': {},
+    'imap-host': {},
+    'imap-port': {},
+    'imap-tls': {},
+    'imap-user': {},
+    'imap-pass': {},
+    'imap-filter': {},
+    'imap-invert': {}
+  })
+
+  yargs.check((argv) => {
+    switch (argv['provider']) {
+    case 'imap':
+      if (!argv['imap-host'])
+	throw new Error('Missing required argument: imap-server')
+      if (!argv['imap-user'])
+	throw new Error('Missing required argument: imap-user')
+      if (!argv['imap-pass'])
+	throw new Error('Missing required argument: imap-pass')
+    default:
+      return true
+    }    
+  })
+
 }
 
 exports.handler = (argv) => {
@@ -25,9 +50,28 @@ exports.handler = (argv) => {
     }
   })
   
-  const provider = require('./lib/mac-provider')({
-    path: expand(argv['mac-index'])
-  })
+  let provider
+
+  switch (argv.provider) {
+  case 'mac':
+    provider = require('./lib/mac-provider')({
+      path: expand(argv['mac-index'])
+    })
+    break
+  case 'imap':
+    provider = require('./lib/imap-provider')({
+      imap: {
+	host: argv['imap-host'],
+	port: argv['imap-port'],
+	user: argv['imap-user'],
+	password: argv['imap-pass'],
+	tls: argv['imap-tls']
+      },
+      filter: argv['imap-filter'] && new RegExp(argv['imap-filter']),
+      invert: argv['imap-invert']
+    })
+    break
+  }
 
   provider.on('data', (row) => {
     row.sender = anonymizer.map(row.sender)

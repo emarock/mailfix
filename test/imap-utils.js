@@ -11,12 +11,14 @@ describe('imap-utils', () => {
 
     it('should return selectable mailboxes in a flat array', () => {
       const boxes = utils.list(mboxes)
-      expect(boxes).to.have.lengthOf(11)
+      expect(boxes).to.have.lengthOf(9)
     })
 
     it('should not return non-selectable mailboxes', () => {
       const boxes = utils.list(mboxes)
       expect(boxes).to.be.an('array').that.not.includes('[Gmail]')
+      expect(boxes).to.be.an('array').that.not.includes('Lists')
+      expect(boxes).to.be.an('array').that.not.includes('Sublists')
     })
 
     it('should return only matching mailboxes', () => {
@@ -32,7 +34,7 @@ describe('imap-utils', () => {
       _.forEach(boxes, (box) => {
 	expect(box).to.not.match(/Sent/)
       })
-      expect(boxes).to.have.lengthOf(9)
+      expect(boxes).to.have.lengthOf(7)
     })
     
   })
