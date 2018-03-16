@@ -10,6 +10,13 @@
   },
   "author": "Enrico Marocco <enrico.marocco@gmail.com>",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emarock/mailfix.git"
+  },
+  "bugs": {
+    "url": "http://github.com/emarock/mailfix/issues"
+  },
   "dependencies": {
     "addressparser": "^1.0.1",
     "async": "^2.6.0",
