@@ -5,6 +5,9 @@
   "scripts": {
     "test": "nyc mocha"
   },
+  "bin": {
+    "mailfix": "bin/mailfix.js"
+  },
   "author": "Enrico Marocco <enrico.marocco@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
