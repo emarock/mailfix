@@ -95,19 +95,24 @@ exports.handler = (argv) => {
       }
     },
     (provider, callback) => {
+      printf(streams.data, 'id,date,type,sender,receiver\n')
       provider.on('data', (row) => {
 	row.sender = anonymizer.map(row.sender)
 	row.receiver = anonymizer.map(row.receiver)
-	printf(streams.data, '%O\n', row)
+	printf(streams.data, '%s,%s,%s,%s,%s\n',
+	       row.id,
+	       row.date.toISOString(),
+	       row.type, row.sender, row.receiver)
       })
       provider.on('end', callback)
       provider.on('error', callback)
     },
     (callback) => {
       if (streams.mapping) {
+	printf(streams.mapping, 'anonymized,original\n')
 	_.forEach(anonymizer.mappings.addresses, (reals, fake) => {
 	  _.forEach(reals, (bool, real) => {
-	    printf(streams.mapping, '%O\n', {fake, real})
+	    printf(streams.mapping, '%s,%s\n', fake, real)
 	  })
 	})
       }
