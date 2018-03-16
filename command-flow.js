@@ -61,7 +61,7 @@ exports.handler = (argv) => {
       let credentials
       switch (argv.provider) {
       case 'mac':
-	return callback()
+	return callback(null, null)
       case 'imap':
 	credentials = require('./lib/imap-credentials')({
 	  output: streams.info
