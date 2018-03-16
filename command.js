@@ -46,7 +46,6 @@ module.exports = function () {
 	'imap'
       ],
       describe: 'The mailbox provider',
-      demandOption: true
     },
     'mac-index': {
       nargs: 1,
@@ -85,6 +84,7 @@ module.exports = function () {
   })
 
   yargs.command(require('./command-flow'))
+  yargs.command(require('./command-map'))
 
   yargs.help('h')
   yargs.alias('h', 'help')

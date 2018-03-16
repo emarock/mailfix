@@ -15,7 +15,9 @@ exports.describe = 'Export flow information from an email archive'
 exports.builder = (yargs) => {
 
   yargs.options({
-    'provider': {},
+    'provider': {
+      demandOption: true
+    },
     'secret': {},
     'output': {},
     'user-words': {},
