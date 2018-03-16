@@ -13,6 +13,18 @@ module.exports = function () {
       describe: 'The secret for email address anonymization',
       default: 'quite a boring secret'
     },
+    'output': {
+      alias: 'o',
+      nargs: 1,
+      string: true,
+      describe: 'Write data to file'
+    },
+    'save-mapping': {
+      alias: ['mapping', 'm'],
+      nargs: 1,
+      string: true,
+      describe: 'Write anonymization mapping to file'
+    },
     'user-words': {
       nargs: 1,
       number: true,
@@ -37,7 +49,6 @@ module.exports = function () {
       demandOption: true
     },
     'mac-index': {
-      alias: 'M',
       nargs: 1,
       string: true,
       describe: 'The index file path for "mac" provider',
@@ -60,18 +71,6 @@ module.exports = function () {
       boolean: true,
       describe: 'Enable TLS on the connection with the IMAP server',
       default: true
-    },
-    'imap-user': {
-      alias: 'U',
-      nargs: 1,
-      string: true,
-      describe: 'The username to use for IMAP authentication'
-    },
-    'imap-pass': {
-      alias: 'P',
-      nargs: 1,
-      string: true,
-      describe: 'The password to use for IMAP authentication'
     },
     'imap-filter': {
       nargs: 1,

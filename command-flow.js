@@ -1,7 +1,12 @@
 const meta = require('./package')
 const debug = require('debug')(meta.name + ':command-flow')
-const expand = require('expand-tilde')
+const tty = require('tty')
+const fs = require('fs')
 const _ = require('lodash')
+const async = require('async')
+const expand = require('expand-tilde')
+const chalk = require('chalk')
+const printf = require('printf')
 
 exports.command = 'flow [options]'
 
@@ -12,14 +17,13 @@ exports.builder = (yargs) => {
   yargs.options({
     'provider': {},
     'secret': {},
+    'output': {},
     'user-words': {},
     'domain-words': {},
     'mac-index': {},
     'imap-host': {},
     'imap-port': {},
     'imap-tls': {},
-    'imap-user': {},
-    'imap-pass': {},
     'imap-filter': {},
     'imap-invert': {}
   })
@@ -29,10 +33,6 @@ exports.builder = (yargs) => {
     case 'imap':
       if (!argv['imap-host'])
 	throw new Error('Missing required argument: imap-server')
-      if (!argv['imap-user'])
-	throw new Error('Missing required argument: imap-user')
-      if (!argv['imap-pass'])
-	throw new Error('Missing required argument: imap-pass')
     default:
       return true
     }    
@@ -42,6 +42,12 @@ exports.builder = (yargs) => {
 
 exports.handler = (argv) => {
 
+  const streams = {
+    info: tty.isatty(process.stdout.fd) ? process.stdout : process.stderr,
+    data: argv.output ? fs.createWriteStream(argv.output) : process.stdout,
+    mapping: argv.mapping && fs.createWriteStream(argv.mapping)
+  }
+
   const anonymizer = require('./lib/anonymizer')({
     secret: argv['secret'],
     words: {
@@ -50,58 +56,72 @@ exports.handler = (argv) => {
     }
   })
   
-  let provider
-
-  switch (argv.provider) {
-  case 'mac':
-    provider = require('./lib/mac-provider')({
-      path: expand(argv['mac-index'])
-    })
-    break
-  case 'imap':
-    provider = require('./lib/imap-provider')({
-      imap: {
-	host: argv['imap-host'],
-	port: argv['imap-port'],
-	user: argv['imap-user'],
-	password: argv['imap-pass'],
-	tls: argv['imap-tls']
-      },
-      filter: argv['imap-filter'] && new RegExp(argv['imap-filter']),
-      invert: argv['imap-invert']
-    })
-    break
-  }
-
-  provider.on('data', (row) => {
-    row.sender = anonymizer.map(row.sender)
-    row.receiver = anonymizer.map(row.receiver)
-    console.log(row)
-  })
-
-  provider.on('end', () => {
-    // let conflicts = 0;
-    // _.forEach(anonymizer.mappings.domains, (domains, mapped) => {
-    //   debug('%j => %s', _.keys(domains), mapped)
-    //   if (_.size(domains) > 1) debug(`conflicting domain on ${mapped}`)
-    //   conflicts += _.size(domains) - 1
-    // });
-    // debug('found %d domain conflicts', conflicts)
-    // conflicts = 0;
-    // _.forEach(anonymizer.mappings.addresses, (addresses, mapped) => {
-    //   debug('%j => %s', _.keys(addresses), mapped)
-    //   if (_.size(addresses) > 1) debug(`conflicting address on ${mapped}`)
-    //   conflicts += _.size(addresses) - 1
-    // });
-    // debug('found %d address conflicts', conflicts)
-
-    console.error('domain anonymization produced %d conflicts',
-		  anonymizer.conflicts.domains)
-    console.error('address anonymizazion produced %d conflicts',
-		  anonymizer.conflicts.addresses)
+  async.waterfall([
+    (callback) => {
+      let credentials
+      switch (argv.provider) {
+      case 'mac':
+	return callback()
+      case 'imap':
+	credentials = require('./lib/imap-credentials')({
+	  output: streams.info
+	})
+	return credentials.get(callback)
+      }
+    },
+    (credentials, callback) => {
+      let provider
+      switch (argv.provider) {
+      case 'mac':
+	provider = require('./lib/mac-provider')({
+	  path: expand(argv['mac-index'])
+	})
+	return callback(null, provider)
+      case 'imap':
+	provider = require('./lib/imap-provider')({
+	  imap: {
+	    host: argv['imap-host'],
+	    port: argv['imap-port'],
+	    user: credentials.user,
+	    password: credentials.password,
+	    tls: argv['imap-tls']
+	  },
+	  filter: argv['imap-filter'] && new RegExp(argv['imap-filter']),
+	  invert: argv['imap-invert']
+	})
+	return callback(null, provider)
+      }
+    },
+    (provider, callback) => {
+      provider.on('data', (row) => {
+	row.sender = anonymizer.map(row.sender)
+	row.receiver = anonymizer.map(row.receiver)
+	printf(streams.data, '%O\n', row)
+      })
+      provider.on('end', callback)
+      provider.on('error', callback)
+    },
+    (callback) => {
+      if (streams.mapping) {
+	_.forEach(anonymizer.mappings.addresses, (reals, fake) => {
+	  _.forEach(reals, (bool, real) => {
+	    printf(streams.mapping, '%O\n', {fake, real})
+	  })
+	})
+      }
+      return callback()
+    }
+  ], (err) => {
+    if (err) throw err
+    printf(streams.info,
+	   chalk.bold('domain anonymization produced %d conflicts\n'),
+	   anonymizer.conflicts.domains)
+    printf(streams.info,
+	   chalk.bold('address anonymizazion produced %d conflicts\n'),
+	   anonymizer.conflicts.addresses)
     if (anonymizer.conflicts.domains + anonymizer.conflicts.addresses > 0)
-      console.error('you may want to increase user and domain words ' +
-		    'to reduce conflicts')
-
+      printf(streams.info,
+	     chalk.bold('you may want to increase user and domain words',
+			'to reduce conflicts\n'))
   })
 }
