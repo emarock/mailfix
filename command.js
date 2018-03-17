@@ -43,7 +43,8 @@ module.exports = function () {
       string: true,
       choices: [
 	'mac',
-	'imap'
+	'imap',
+	'gmail'
       ],
       describe: 'The mailbox provider',
     },
@@ -72,14 +73,16 @@ module.exports = function () {
       default: true
     },
     'imap-filter': {
+      alias: 'gmail-filter',
       nargs: 1,
       string: true,
       describe: 'Only fetch in mailboxes matching the given regular expression'
     },
     'imap-invert': {
+      alias: 'gmail-invert',
       nargs: 1,
       boolean: true,
-      describe: 'Invert imap-filter matching'
+      describe: 'Invert filter matching'
     }
   })
 

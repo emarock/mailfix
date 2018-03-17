@@ -69,9 +69,28 @@ exports.handler = (argv) => {
 	  output: streams.info
 	})
 	return credentials.get(callback)
+      case 'gmail':
+	credentials = require('./lib/gmail-credentials')({
+	  output: streams.info
+	})
+	return credentials.get(callback)
       }
     },
     (credentials, callback) => {
+      switch (argv.provider) {
+      case 'imap':
+	credentials.host = argv['imap-host']
+	credentials.port = argv['imap-port']
+	credentials.tls = argv['imap-tls']
+	return callback(null, credentials)
+      case 'gmail':
+	credentials.host = 'imap.gmail.com'
+	credentials.port = 993
+	credentials.tls = true
+	return callback(null, credentials)
+      }
+    },
+    (options, callback) => {
       let provider
       switch (argv.provider) {
       case 'mac':
@@ -80,14 +99,9 @@ exports.handler = (argv) => {
 	})
 	return callback(null, provider)
       case 'imap':
+      case 'gmail':
 	provider = require('./lib/imap-provider')({
-	  imap: {
-	    host: argv['imap-host'],
-	    port: argv['imap-port'],
-	    user: credentials.user,
-	    password: credentials.password,
-	    tls: argv['imap-tls']
-	  },
+	  imap: options,
 	  filter: argv['imap-filter'] && new RegExp(argv['imap-filter']),
 	  invert: argv['imap-invert']
 	})

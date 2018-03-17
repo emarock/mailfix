@@ -27,9 +27,11 @@ consisting of the following fields:
 
 Mailfix can currently export flow informations from:
 
- * An IMAP account
+ * GMAIL accounts
 
- * Apple Mail (successfully tested on version 11.2)
+ * IMAP accounts
+
+ * Apple Mail on Mac OS X (successfully tested on version 11.2)
 
 
 ## Installation
@@ -59,16 +61,16 @@ Options:
   --domain-words                 The number of words for anonymization of
                                  address domains           [number] [default: 3]
   --provider, -p                 The mailbox provider
-                                               [string] [choices: "mac", "imap"]
+                                      [string] [choices: "mac", "imap", "gmail"]
   --mac-index                    The index file path for "mac" provider
                  [string] [default: "~/Library/Mail/V5/MailData/Envelope Index"]
   --imap-host, -H                The IMAP server host                   [string]
   --imap-port                    The IMAP server port    [number] [default: 993]
   --imap-tls                     Enable TLS on the connection with the IMAP
                                  server                [boolean] [default: true]
-  --imap-filter                  Only fetch in mailboxes matching the given
+  --imap-filter, --gmail-filter  Only fetch in mailboxes matching the given
                                  regular expression                     [string]
-  --imap-invert                  Invert imap-filter matching           [boolean]
+  --imap-invert, --gmail-invert  Invert filter matching                [boolean]
   -h, --help                     Show help                             [boolean]
   -v, --version                  Show version number                   [boolean]
 
