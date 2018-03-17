@@ -154,6 +154,16 @@ describe('imap-utils', () => {
 
       expect(entries).to.be.an('array').of.lengthOf(0)
     })
+
+    it('should return zero entries if date is wrong', () => {
+      const buffer = 'To: Receiver name <receiver@example.com>\r\n' +
+	    'From: sender name <sender@example.com>\r\n' +
+	    'Date: Fri, 13 Sep 2013 15.01.00 +0300\r\n'
+
+      const entries = utils.split(buffer)
+
+      expect(entries).to.be.an('array').of.lengthOf(0)
+    })
     
   })
   
