@@ -57,4 +57,26 @@ describe('mac-provider', () => {
 
   })
 
+  it('should emit progress events till it is over', (done) => {
+    provider = require('../lib/mac-provider')({
+      path: path.join(__dirname, 'data', 'db.sqlite')
+    })
+
+    let count = 0
+    
+    provider.on('progress', (progress) => {
+      count++
+    })
+
+    provider.on('end', () => {
+      try {
+	expect(count).to.equal(4)
+	done()
+      } catch (err) {
+	done(err)
+      }
+    })
+
+  })
+
 })

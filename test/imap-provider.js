@@ -218,6 +218,34 @@ describe('imap-provider', () => {
     })
 
   })
+
+  it('should emit progress events till it is over', (done) => {
+    provider = require('../lib/imap-provider')({
+      imap: {
+	user: 'testuser',
+	password: 'testpass',
+	host: '127.0.0.1',
+	port: 1143,
+	tls: false
+      }
+    })
+
+    let count = 0
+    
+    provider.on('progress', (progress) => {
+      count++
+    })
+
+    provider.on('end', () => {
+      try {
+	expect(count).to.equal(14)
+	done()
+      } catch (err) {
+	done(err)
+      }
+    })
+
+  })
   
 })
 
