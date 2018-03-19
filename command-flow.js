@@ -7,6 +7,7 @@ const async = require('async')
 const expand = require('expand-tilde')
 const chalk = require('chalk')
 const printf = require('printf')
+const progress = require('cli-progress')
 
 exports.command = 'flow [options]'
 
@@ -34,7 +35,7 @@ exports.builder = (yargs) => {
     switch (argv['provider']) {
     case 'imap':
       if (!argv['imap-host'])
-	throw new Error('Missing required argument: imap-server')
+	throw new Error('Missing required argument: imap-host')
     default:
       return true
     }    
@@ -111,6 +112,25 @@ exports.handler = (argv) => {
       }
     },
     (provider, callback) => {
+      if (argv.output || !tty.isatty(process.stdout.fd)) {
+	const bar = new progress.Bar({
+	  format: '{bar} {percentage}% | processing message {value} of {total}',
+	  barsize: 20,
+	  clearOnComplete: true,
+      	  stream: streams.info
+      	}, progress.Presets.shades_grey)
+	bar.start()
+	provider.on('progress', (state) => {
+	  bar.setTotal(state.total)
+	  bar.update(state.actual)
+	})
+	provider.on('end', () => {
+	  bar.stop()
+	})
+      }
+      return callback(null, provider)
+    },
+    (provider, callback) => {
       printf(streams.data, 'id,date,type,sender,receiver\n')
       provider.on('data', (row) => {
 	row.sender = anonymizer.map(row.sender)
@@ -120,6 +140,7 @@ exports.handler = (argv) => {
 	       row.date.toISOString(),
 	       row.type, row.sender, row.receiver)
       })
+
       provider.on('end', callback)
       provider.on('error', callback)
     },
