@@ -5,22 +5,22 @@
 
 ## Welcome
 
-Mailfix is a commandline tool for exporting anonymized flow
-information from mailbox formats. The primary intent is to assemble
-large datasets for statistical and social network analysis.
+Mailfix is a command-line tool for exporting anonymized flow
+information from email archives. The primary intent is to assemble
+personal datasets for statistical and social network analysis.
 
 Email flow information is exported in CSV format, with each row
 consisting of the following fields:
 
- * id: the identifier for and email message, unique within the mailbox
+ * id: the email message identifier, unique within the mailbox
 
  * date: the date and time
 
  * type: the receipient type, either `to` or `cc`
 
- * sender: the sender
+ * sender: the anonymized sender
 
- * receiver: the receiver
+ * receiver: the anonymized receiver
 
 
 ### Supported formats
@@ -32,6 +32,18 @@ Mailfix can currently export flow informations from:
  * IMAP accounts
 
  * Apple Mail on Mac OS X (successfully tested on version 11.2)
+
+
+### Anonymization
+
+Email flow information is extremely sensitive and, in order to
+preserve everyone's privacy, it should never be shared in
+clear.
+
+Mailfix supports deterministic anonymization that can be controlled by
+providing a secret phrase through the `--secret` command-line
+option. Anonymization is enabled by default with a pre-defined secret;
+it can be disabled by providing an empty string.
 
 
 ## Installation
