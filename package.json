@@ -1,6 +1,6 @@
 {
   "name": "mailfix",
-  "version": "1.2.0-dev",
+  "version": "1.2.0",
   "description": "Export anonymized traffic flow information from email archives",
   "scripts": {
     "test": "nyc mocha"
