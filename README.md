@@ -42,8 +42,24 @@ clear.
 
 Mailfix supports deterministic anonymization that can be controlled by
 providing a secret phrase through the `--secret` command-line
-option. Anonymization is enabled by default with a pre-defined secret;
-it can be disabled by providing an empty string.
+option.
+
+Anonymization will map domains consistently, but not user names:
+
+```
+$ mailfix map alice@example.com
+et.pariatur.rem.aut@doloribus.peggie.ca
+
+$ mailfix map bob@example.com
+perferendis.sapiente.voluptatibus.doloremque@doloribus.peggie.ca
+
+$ mailfix map bob@example.net
+quis.sit.minus.eveniet@deleniti.powlowski.biz
+
+```
+
+Anonymization is enabled by default with a pre-defined secret; it can
+be disabled by providing an empty string.
 
 
 ## Installation
@@ -53,7 +69,31 @@ $ npm install -g mailfix
 ```
 
 
-## Usage
+## Quick Start
+
+
+### Export from an IMAP account
+
+```
+$ mailfix flow -p imap -H imap.example.com -o /tmp/imap-flow.csv
+```
+
+
+### Export the "All Mail" folder from Gmail
+
+```
+$ mailfix flow -p gmail --gmail-filter 'All Mail' -o /tmp/imap-gmail.csv
+```
+
+
+### Export the local Apple Mail archive
+
+```
+$ mailfix flow -p mac -o /tmp/mac-flow.csv
+```
+
+
+## Command-line Options
 
 ```
 $ mailfix -h
