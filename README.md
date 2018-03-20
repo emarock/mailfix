@@ -94,8 +94,7 @@ id,date,type,sender,receiver
 ```
 $ mailfix flow -p gmail --gmail-filter 'All Mail' -o /tmp/imap-gmail.csv
 Authorize access by visiting this url: https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fmail.google.com%2F&response_type=code&client_id=327407735637-6fa6a0m8rh2dsau0krqv7unvcoehefol.apps.googleusercontent.com&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob
-? Enter the code from that page here: 4/AADV636PXBDv-oGnF6vXoT82ry-uJVB_L5Eo1M7V
-9Qjt0JV4kZWbPb4
+? Enter the code from that page here: 4/AADV636PXBDv-oGnF6vXoT82ry-uJVB_L5Eo1M7V9Qjt0JV4kZWbPb4
 domain anonymization produced 0 conflicts
 address anonymizazion produced 0 conflicts
 
