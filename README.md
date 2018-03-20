@@ -37,7 +37,7 @@ Mailfix can currently export flow informations from:
 ## Anonymization
 
 Email flow information is extremely sensitive and, in order to
-preserve everyone's privacy, it should never be shared in
+preserve your and your contacts' privacy, it should never be shared in
 clear.
 
 Mailfix supports deterministic anonymization that can be controlled by
