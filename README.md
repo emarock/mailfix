@@ -58,8 +58,8 @@ quis.sit.minus.eveniet@deleniti.powlowski.biz
 
 ```
 
-Anonymization is enabled by default with a pre-defined secret; it can
-be disabled by providing an empty string.
+Anonymization is enabled by default with a pre-defined secret (that
+should be changed); it can be disabled by providing an empty string.
 
 
 ## Installation
