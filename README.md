@@ -34,7 +34,7 @@ Mailfix can currently export flow informations from:
  * Apple Mail on Mac OS X (successfully tested on version 11.2)
 
 
-### Anonymization
+## Anonymization
 
 Email flow information is extremely sensitive and, in order to
 preserve everyone's privacy, it should never be shared in
@@ -76,6 +76,16 @@ $ npm install -g mailfix
 
 ```
 $ mailfix flow -p imap -H imap.example.com -o /tmp/imap-flow.csv
+? Username: imapuser
+? Password: [hidden]
+domain anonymization produced 0 conflicts
+address anonymizazion produced 0 conflicts
+
+$ head /tmp/imap-flow.csv 
+id,date,type,sender,receiver
+1,2006-05-05T09:09:11.000Z,to,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,omnis.est.quo.explicabo@vel.pfannerstill.biz
+1,2006-05-05T09:09:11.000Z,to,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,dolores.eum.sint.vitae@vel.pfannerstill.biz
+1,2006-05-05T09:09:11.000Z,to,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,porro.quia.qui.suscipit@vel.pfannerstill.biz
 ```
 
 
@@ -83,6 +93,17 @@ $ mailfix flow -p imap -H imap.example.com -o /tmp/imap-flow.csv
 
 ```
 $ mailfix flow -p gmail --gmail-filter 'All Mail' -o /tmp/imap-gmail.csv
+Authorize access by visiting this url: https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fmail.google.com%2F&response_type=code&client_id=327407735637-6fa6a0m8rh2dsau0krqv7unvcoehefol.apps.googleusercontent.com&redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob
+? Enter the code from that page here: 4/AADV636PXBDv-oGnF6vXoT82ry-uJVB_L5Eo1M7V
+9Qjt0JV4kZWbPb4
+domain anonymization produced 0 conflicts
+address anonymizazion produced 0 conflicts
+
+$ head /tmp/gmail-flow.csv
+id,date,type,sender,receiver
+26,2010-07-14T09:17:56.000Z,cc,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,atque.sed.molestiae.debitis@dignissimos.beier.net
+26,2010-07-14T09:17:56.000Z,cc,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,in.expedita.nisi.nihil@ut.braun.biz
+26,2010-07-14T09:17:56.000Z,cc,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,iusto.consequatur.sint.deleniti@culpa.makenzie.name
 ```
 
 
@@ -90,6 +111,13 @@ $ mailfix flow -p gmail --gmail-filter 'All Mail' -o /tmp/imap-gmail.csv
 
 ```
 $ mailfix flow -p mac -o /tmp/mac-flow.csv
+domain anonymization produced 0 conflicts
+address anonymizazion produced 0 conflicts
+
+$ head /tmp/gmail-flow.csv
+25,2010-07-12T07:36:57.000Z,to,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,et.aliquam.libero.commodi@dolorem.alva.us
+25,2010-07-12T07:36:57.000Z,to,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,aliquam.officiis.non.rerum@incidunt.alfonzo.biz
+26,2010-07-14T09:17:56.000Z,to,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,quidem.eum.quod.culpa@eaque.kiana.org
 ```
 
 
