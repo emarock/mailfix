@@ -113,10 +113,10 @@ $ mailfix flow -p mac -o /tmp/mac-flow.csv
 domain anonymization produced 0 conflicts
 address anonymizazion produced 0 conflicts
 
-$ head /tmp/gmail-flow.csv
-25,2010-07-12T07:36:57.000Z,to,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,et.aliquam.libero.commodi@dolorem.alva.us
-25,2010-07-12T07:36:57.000Z,to,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,aliquam.officiis.non.rerum@incidunt.alfonzo.biz
-26,2010-07-14T09:17:56.000Z,to,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,quidem.eum.quod.culpa@eaque.kiana.org
+$ head /tmp/mac-flow.csv
+45,2016-09-28T08:20:35.000Z,cc,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,cum.qui.voluptate.ex@vel.pfannerstill.biz
+46,2016-09-30T07:47:44.000Z,to,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,voluptatem.tempore.quia.ipsum@vel.pfannerstill.biz
+46,2016-09-30T07:47:44.000Z,to,necessitatibus.iusto.ipsa.praesentium@vel.pfannerstill.biz,cum.qui.voluptate.ex@vel.pfannerstill.biz
 ```
 
 
