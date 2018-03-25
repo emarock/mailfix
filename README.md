@@ -16,12 +16,14 @@ consisting of the following fields:
 
  * date: the date and time
 
- * type: the receipient type, either `to` or `cc`
+ * type: the recipient type, either `to` or `cc`
 
  * sender: the anonymized sender
 
  * receiver: the anonymized receiver
 
+An example dataset can be found on
+[kaggle](https://www.kaggle.com/emarock/enricos-email-flows).
 
 ### Supported formats
 
@@ -63,6 +65,9 @@ should be changed); it can be disabled by providing an empty string.
 
 
 ## Installation
+
+Mailfix requires [node.js](https://nodejs.org/) and can be installed
+with `npm`:
 
 ```
 $ npm install -g mailfix
